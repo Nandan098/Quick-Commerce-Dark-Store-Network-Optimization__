@@ -5,8 +5,8 @@ import folium
 from streamlit_folium import st_folium
 
 st.set_page_config(
-    page_title="Bengaluru Dark Store Map",
-    page_icon="📦",
+    page_title="Dark Store Map",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -24,8 +24,8 @@ section[data-testid="stSidebar"] { background:#191c25; }
 </style>
 """, unsafe_allow_html=True)
 
-ORDERS_FILE = r"outputs\customer_orders_with_clusters.csv"
-COMPETITOR_FILE = r"data\Competitors.csv"
+ORDERS_FILE = "outputs/customer_orders_with_clusters.csv"
+COMPETITOR_FILE = "data/Competitors.csv"
 
 @st.cache_data
 def load_data():
@@ -50,7 +50,7 @@ except FileNotFoundError as e:
     st.stop()
 
 st.markdown(
-    '<div class="title">📦 Bengaluru Dark Store Network Optimization</div>',
+    '<div class="title"> Bengaluru Dark Store Network Optimization</div>',
     unsafe_allow_html=True
 )
 

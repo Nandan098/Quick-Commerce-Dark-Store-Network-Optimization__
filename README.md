@@ -221,13 +221,10 @@ Demand needs to be considered together with competitor coverage, local capacity 
 
 ---
 
-## 4. 30-Second Version
-
-> I built a Bengaluru quick-commerce dark-store analysis using Python, SQL, K-Means, Streamlit and Power BI. I analyzed around 6,000 customer orders, identified geographic demand clusters, compared them with actual Blinkit, Zepto and Instamart locations, and shortlisted high-demand areas with relatively lower competition. I then checked local demand against an assumed store capacity and evaluated geographic accessibility. The final output was an analytical decision-support framework rather than an actual store-opening recommendation.
 
 ---
 
-## 5. Technical Architecture
+## 4. Technical Architecture
 
 ```text
 Customer Orders
@@ -266,7 +263,7 @@ Capacity Check        Geographic Accessibility
 
 ---
 
-## 6. Tech Stack
+## 5. Tech Stack
 
 | Tool / Technology | Purpose |
 |---|---|
@@ -284,59 +281,6 @@ Capacity Check        Geographic Accessibility
 
 ---
 
-## 7. Repository Structure
-
-```text
-quick-commerce-dark-store-analysis/
-│
-├── README.md
-│
-├── data/
-│   ├── customer_orders.csv
-│   ├── Competitors.csv
-│   └── README.md
-│
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_sql_demand_analysis.sql
-│   ├── 03_kmeans_clustering.ipynb
-│   ├── 04_competitor_opportunity_analysis.ipynb
-│   └── 05_capacity_accessibility_analysis.ipynb
-│
-├── src/
-│   ├── kmeans_new_customer_orders.py
-│   ├── opportunity_new_data.py
-│   └── utils.py
-│
-├── outputs/
-│   ├── customer_orders_with_clusters.csv
-│   ├── demand_cluster_summary.csv
-│   ├── kmeans_model_comparison.csv
-│   ├── cluster_centers.csv
-│   ├── opportunity_areas.csv
-│   └── final_opportunity_sla_analysis.csv
-│
-├── streamlit/
-│   ├── app_final.py
-│   └── requirements.txt
-│
-├── powerbi/
-│   └── dark_store_network_analysis.pbix
-│
-├── screenshots/
-│   ├── streamlit_map.png
-│   ├── demand_dashboard.png
-│   ├── competition_opportunity_dashboard.png
-│   └── capacity_accessibility_dashboard.png
-│
-├── docs/
-│   ├── methodology.md
-│   └── project_flow.png
-│
-└── .gitignore
-```
-
----
 
 ## 8. Dataset Description
 
@@ -563,97 +507,6 @@ This project has several limitations:
 
 ---
 
-## 16. Interview Deep-Dive Questions
-
-### Why did you use K-Means?
-
-> I used K-Means because the problem was primarily about identifying geographic concentrations of customers. Since the input variables were customer latitude and longitude, clustering provided a simple way to segment the demand geographically.
-
-### Why not simply choose the highest-demand area?
-
-> Because high demand does not automatically mean a good expansion opportunity. There may already be strong competitor coverage in that area. So I combined demand with competitor presence.
-
-### Why did you choose K = 5?
-
-> I tested multiple K values and compared clustering quality using metrics such as inertia and silhouette score. I selected K = 5 because it provided a simple and interpretable segmentation for this case study.
-
-### Why 2 km?
-
-> I used 2 km as a geographic screening radius for comparing demand and competitor presence. It is a case-study assumption, not a universal operating radius. In a real system, I would validate it against actual road travel time and the company's service-area data.
-
-### Why 1,200 orders per day?
-
-> I used 1,200 orders per day as a planning assumption for the capacity calculation. It is not meant to represent a universal industry benchmark. In a real implementation, capacity would come from actual store throughput and operating constraints.
-
-### How did you measure SLA?
-
-> I did not directly measure actual SLA because I did not have road-network travel time, traffic, rider availability or store processing-time data. Instead, I used geographic distance as an accessibility proxy. The 10-minute service target is illustrative only.
-
-### Did you actually optimize the dark-store network?
-
-> I would describe it as a decision-support analysis rather than claiming a full production optimization. The project screens and ranks areas using demand, competition, capacity and accessibility. A production optimization model would need additional constraints and validated business data.
-
-### Is this a real company deployment?
-
-> No. It is a Bengaluru case study built to demonstrate how supply-chain and analytics methods can support dark-store network decisions.
-
-### What was your biggest learning?
-
-> My biggest learning was that supply-chain decisions usually require balancing multiple factors. A location with high demand may still not be attractive if competitor coverage is high or the local operational capacity is not sufficient.
-
----
-
-## 17. Leadership Principle Mapping for Amazon
-
-### Dive Deep
-
-I used detailed customer-order, geographic and competitor-location analysis rather than relying only on total demand.
-
-### Customer Obsession
-
-The analysis starts from customer demand and geographic accessibility, because the purpose of a dark-store network is to serve customers efficiently.
-
-### Ownership
-
-I structured the project end-to-end, from data exploration and modelling to dashboards and interpretation.
-
-### Learn and Be Curious
-
-I combined supply-chain concepts with Python, SQL, machine learning, geographic analysis, Streamlit and Power BI.
-
-### Invent and Simplify
-
-I created a simple demand + competition screening framework instead of building an unnecessarily complicated optimization model.
-
-### Deliver Results
-
-The final project produces usable outputs, opportunity rankings, capacity checks, and dashboards that communicate the analysis clearly.
-
----
-
-## 18. GitHub Presentation
-
-For a recruiter or interviewer, the recommended viewing order is:
-
-```text
-README.md
-   ↓
-01_data_exploration.ipynb
-   ↓
-03_kmeans_clustering.ipynb
-   ↓
-04_competitor_opportunity_analysis.ipynb
-   ↓
-05_capacity_accessibility_analysis.ipynb
-   ↓
-Streamlit Application
-   ↓
-Power BI Dashboard
-```
-
-The README should communicate the business problem before the technical implementation.
-
----
 
 ## 19. Final Project Statement
 

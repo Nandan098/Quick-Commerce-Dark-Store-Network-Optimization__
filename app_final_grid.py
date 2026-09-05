@@ -24,8 +24,8 @@ section[data-testid="stSidebar"] { background:#191c25; }
 </style>
 """, unsafe_allow_html=True)
 
-ORDERS_FILE = "customer_orders_with_clusters.csv"
-COMPETITOR_FILE = "Competitors.csv"
+ORDERS_FILE = r"outputs\customer_orders_with_clusters.csv"
+COMPETITOR_FILE = r"data\Competitors.csv"
 
 @st.cache_data
 def load_data():
@@ -224,6 +224,69 @@ if show_clusters:
         ).add_to(center_layer)
 
     center_layer.add_to(m)
+
+# ------------------------------------------------------------
+# GRID IN EACH K-MEANS CLUSTER (~1 KM)
+# ------------------------------------------------------------
+
+if show_clusters:
+    grid_layer = folium.FeatureGroup(
+        name="Cluster Grid (~1 km)",
+        show=True
+    )
+
+    GRID_SIZE = 0.009  # approximately 1 km
+
+    grid_orders = orders.dropna(
+        subset=["Customer_Lat", "Customer_Lon", "cluster"]
+    ).copy()
+
+    lat_min = grid_orders["Customer_Lat"].min()
+    lon_min = grid_orders["Customer_Lon"].min()
+
+    grid_orders["grid_lat"] = (
+        (grid_orders["Customer_Lat"] - lat_min) / GRID_SIZE
+    ).astype(int)
+
+    grid_orders["grid_lon"] = (
+        (grid_orders["Customer_Lon"] - lon_min) / GRID_SIZE
+    ).astype(int)
+
+    grid_cells = (
+        grid_orders.groupby(
+            ["cluster", "grid_lat", "grid_lon"],
+            as_index=False
+        )
+        .agg(order_count=("Order_ID", "count"))
+    )
+
+    for _, cell in grid_cells.iterrows():
+        cluster = int(cell["cluster"])
+        color = cluster_colors[cluster]
+
+        south = lat_min + int(cell["grid_lat"]) * GRID_SIZE
+        west = lon_min + int(cell["grid_lon"]) * GRID_SIZE
+        north = south + GRID_SIZE
+        east = west + GRID_SIZE
+
+        folium.Rectangle(
+            bounds=[
+                [south, west],
+                [north, east]
+            ],
+            color=color,
+            weight=1,
+            opacity=0.65,
+            fill=True,
+            fill_color=color,
+            fill_opacity=0.06,
+            tooltip=(
+                f"Cluster {cluster} | "
+                f"{int(cell['order_count']):,} orders"
+            )
+        ).add_to(grid_layer)
+
+    grid_layer.add_to(m)
 
 # ------------------------------------------------------------
 # COMPETITOR DARK STORES
